@@ -1,0 +1,26 @@
+{
+  "name": "mochatests-stgeorge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "apiTests": "./node_modules/.bin/gulp apiTests",
+    "uiTests": "./node_modules/.bin/gulp uiTests"
+  },
+  "author": "Priyabrata Bhattacharya",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^3.0.1",
+    "gulp-webdriver": "^2.0.2",
+    "mocha": "^3.2.0",
+    "request": "^2.79.0",
+    "selenium-standalone": "^6.0.1",
+    "wdio-allure-reporter": "^0.1.2",
+    "wdio-mocha-framework": "^0.5.4",
+    "wdio-spec-reporter": "0.0.3",
+    "webdriverio": "^4.4.0",
+    "xml2js": "^0.4.17"
+  }
+}
