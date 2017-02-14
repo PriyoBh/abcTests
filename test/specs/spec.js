@@ -2,11 +2,14 @@ var assert = require('assert');
 var expect = require('chai').expect; 
 var abcNewsHeader = require('../PageObjects/abcNewsHeader.js'); 
 var pgJustIn = require('../PageObjects/justInPage.js');
+var pgImageGallery = require('../PageObjects/abcImages.js');
 var objNewsLocator = abcNewsHeader.buildLocatorPropertiesAndReturn();
-var objJustInLocator =  pgJustIn.buildLocatorPropertiesAndReturn();       
+var objJustInLocator =  pgJustIn.buildLocatorPropertiesAndReturn();  
+var objImageLocator = pgImageGallery.buildLocatorPropertiesAndReturn();  
+
 
 describe('abc news page', function() {
-/*
+
     it('abc news site should get loaded and title should be ABC News (Australian Broadcasting Corporation)', function () {
         browser.url('/news');
         var title = browser.getTitle();
@@ -31,7 +34,7 @@ describe('abc news page', function() {
             
         });
     });
-*/
+
     it('verify all articles have been correctly loaded', function(){
         browser.url('/news/justin/');
         
@@ -61,28 +64,26 @@ describe('abc news page', function() {
 
 
     });
-/*
 
-    it('should return some result when I search the abn -62885060801',function(){
-    	browser.url('/');
-    	abnPageHandler.enterABNAndHitSearch(browser,'62885060801');
-    	browser.waitForVisible("h1*=Current details for",1000);
-    	var locator_header_text = browser.getText("h1*=Current details for");
-    	console.log("debug::" + locator_header_text);
-    	expect(locator_header_text).to.equal("Current details for ABN 62 885 060 801");
+    it('verify that the video loads successfully for an article with a video', function(){
+            browser.url('/news/2017-02-09/weatherill-promises-to-intervene-dramatically/8254908');
+  
+            var result = browser.execute(function(){                
+                return document.getElementsByTagName('video')[0];
+                                  
+            });
+            
+            console.log(result.value);
+            expect(result.value).not.equal(null);
+            
     });
 
-    it('name should be displayed for the abn the abn -62885060801',function(){
-    	browser.url('/');
-    	abnPageHandler.enterABNAndHitSearch(browser,'62885060801');
-    	var locator_table_name = "//div[\@id=\"content\"]/div/div[2]/table/tbody/tr[1]/td/span";
+    it('verify that images in image gallery loaded successfully', function(){
+        browser.url('/news/2017-02-10/abc-open-pic-of-the-week/8256256');
+        var num_of_images = (browser.elements(objImageLocator.imgList())).value.length;
+        console.log(num_of_images);
+        //check all the 15 images in the gallery have been loaded
+        expect(num_of_images).to.equal(15);
+    });
 
-    	console.log("debug::" + locator_table_name);
-
-    	browser.waitForVisible(locator_table_name,1000);
-    	var locator_table_name_text = browser.getText(locator_table_name);
-    	
-    	expect(locator_table_name_text).to.equal("The Trustee for LAUTRE SELF MANAGED SUPERANNUATION FUND");
-    });    	
-*/
 });

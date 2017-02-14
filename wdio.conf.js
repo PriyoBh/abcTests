@@ -10,7 +10,7 @@ exports.config = {
      * specify test files
      */
     specs: [
-        './test/specs/*'
+        './test/specs/abcRadioTests.js'
     ],
     /*exclude: [
         'test/spec/multibrowser/**',
@@ -20,8 +20,10 @@ exports.config = {
     /**
      * capabilities
      */
+    
     capabilities: [ {
-        browserName: 'chrome'
+        browserName: 'chrome',
+        
     }],
 
     /**
