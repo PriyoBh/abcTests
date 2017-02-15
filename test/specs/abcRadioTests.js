@@ -1,28 +1,67 @@
 var assert = require('assert');
 var expect = require('chai').expect; 
 var rh = require('../PageObjects/radioHeader.js');
+var radioMedia = require('../PageObjects/radioProgramsBody.js');
 
 var objProgramsMenuLocator = rh.buildProgramMenuAndReturn();
+var objRadioMenuLocator = radioMedia.buildRadioMediaMenuAndReturn();
+var objProgramNavLocator = rh.buildProgramNavAndReturn();
 
 describe('abc radio tests', function(){
-/*
-	it("navigate to the radio url", function(){
-		browser.url('/radionational');
-	});
 
 	it("navigate to a program via programs sub-menu", function(){
+		browser.url('/radionational');
 		browser.click(objProgramsMenuLocator.lnk_ProgramsDropDown);
 		browser.click(objProgramsMenuLocator.getXPathForProgramsMenu("The World Today"));
 		browser.waitForVisible("//div[@id='header']/h1",5000);
-		var expectedHeader = browser.getText("//div[@id='header']/h1",function(result){
-			expect(result).to.equal("The World Today with Eleanor Hall");
-		});	
+		expect(browser.getText("//div[@id='header']/h1")).to.contain("The World Today");
 	});
-*/
+
+	it("search for content in the search bar and search results returned", function(){
+		browser.url('/radionational');
+		browser.setValue(objProgramsMenuLocator.txt_SearchProgram,"Big Ideas");
+		browser.click(objProgramsMenuLocator.txt_SearchProgramInput);
+		var num_search_results = (browser.elements("//h3/a[contains(text(),'Big Ideas')]")).value.length;
+		expect(num_search_results).to.be.above(0);
+	});
 	
-	/*
-	it("social media pop up should open when the icon is clicked", function(){
-		browser.timeouts('page load',30000);
+
+	it("upon clicking on download audio should get directed to mp3 file", function(){
+		browser.url('/radionational/programs/bigideas/a-fortunate-universe/8076406');
+		var hrefResource = browser.getAttribute(objRadioMenuLocator.lnk_downloadAudio,"href");
+		expect(hrefResource.indexOf(".mp3")).to.not.equal(-1);
+	});
+
+
+	it("upon going to the audio url check audio gets loaded", function(){
+		browser.url("https://radio.abc.net.au/programitem/pg1aGbWlx6?play=true");
+		var isPlayButtonVisible = browser.waitForVisible("//div[@id='player']//div[@aria-controls='player' and @aria-label='Play']",10000);
+		expect(isPlayButtonVisible).to.equal(true);
+		
+	});
+
+
+	it("upon clicking on listen Now should get re-directed to proper url", function(){
+		browser.url('/radionational/programs/bigideas/a-fortunate-universe/8076406');
+		var tabIds = [];
+		tabIds.MAIN = browser.getTabIds();
+		browser.click(objRadioMenuLocator.lnk_ListenNow);
+		browser.getTabIds().forEach(function(element){
+			if(element===tabIds.MAIN){
+				return;
+			}
+			else {
+				tabIds.radioPlayerTab = element;
+			}
+		});
+		browser.switchTab(tabIds.radioPlayerTab);
+		expect(browser.getUrl()).to.equal("https://radio.abc.net.au/programitem/pg1aGbWlx6?play=true");
+		browser.close();
+		browser.url('/radionational');
+	});
+	
+	
+	it("twitter window pop up should open when the twitter icon is clicked", function(){
 		browser.url('/radionational/programs/bigideas/a-fortunate-universe/8076406');
 		var windowId = [];
 		windowId.MAIN = browser.getTabIds();
@@ -37,17 +76,32 @@ describe('abc radio tests', function(){
 					}
 					windowId.Twitter = element;
 				});
-		console.log(windowId.MAIN);
-		console.log(windowId.Twitter);
 
 		browser.switchTab(windowId.Twitter);
-
-		browser.getText("//h1[@class='logo']/a",function(result){
-			expect(result).to.equal("Twitter");
-		});
-		
-		browser.close();
+		var logoText = browser.getText("//h1[@class='logo']/a");
+		expect(logoText).to.equal("Twitter");
 	
 	});
-*/
+
+/*
+it("navigate successfully to the last guide of the program guide banner and select", function(){
+		browser.url('/radionational');
+		var text = objProgramNavLocator.getXPathForProgramNav("3:00 am");
+		console.log(text);
+		
+		do
+		{
+			browser.click(objProgramNavLocator.lnk_rightArrow);	
+		} while(!browser.isVisible(objProgramNavLocator.getXPathForProgramNav("3:00 am")));
+		
+		//browser.waitForEnabled("//*[@id='content']/div[1]/div/div/div[2]/ul/li[20]/a",5000);
+
+		browser.click("//*[@id='content']/div[1]/div/div/div[2]/ul/li[19]/a/div[1]");
+	
+	
+		browser.pause(5000);
+		//expect(browser.getText("//h2//a[contains(text(),'Big Ideas')]")).to.equal("Blala");
+		
+	});
+	*/
 });

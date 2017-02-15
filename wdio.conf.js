@@ -5,12 +5,13 @@ exports.config = {
      */
     host: '0.0.0.0',
     port: 4444,
+    maxInstance: 1,
 
     /**
      * specify test files
      */
     specs: [
-        './test/specs/abcRadioTests.js'
+        './test/specs/*.js'
     ],
     /*exclude: [
         'test/spec/multibrowser/**',
@@ -29,20 +30,21 @@ exports.config = {
     /**
      * test configurations
      */
-    logLevel: 'silent',
+    logLevel: 'error',
     coloredLogs: true,
     screenshotPath: 'shots',
     baseUrl: 'http://www.abc.net.au',
-    waitforTimeout: 99999999,
+    waitforTimeout: 5000,
     framework: 'mocha',
 
-    reporters: ['spec','allure'],
+    reporters: ['spec'],
     reporterOptions: {
-        outputDir: './allure-results'
+        outputDir: './report'
     },
 
     mochaOpts: {
-        ui: 'bdd'
+        ui: 'bdd',
+        timeout: 20000
     },
 
     /**

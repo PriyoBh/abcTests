@@ -13,13 +13,12 @@ describe('abc news page', function() {
     it('abc news site should get loaded and title should be ABC News (Australian Broadcasting Corporation)', function () {
         browser.url('/news');
         var title = browser.getTitle();
-        console.log("debug :" + title);	
-        assert.equal(title, 'ABC News (Australian Broadcasting Corporation)');
+        expect(title).to.equal('ABC News (Australian Broadcasting Corporation)'); 
     });
 
     it('uploading news page the new icon should be present', function () {
-        console.log("debug:: " + objNewsLocator["img_NewsIcon"] );
-        browser.waitForVisible(objNewsLocator["img_NewsIcon"],1000);
+        var isNewsIconVisible = browser.waitForVisible(objNewsLocator["img_NewsIcon"],1000);
+        expect(isNewsIconVisible).to.equal(true);
     });
 
     it('verify that the user can navigate to justIn page through primary navigation', function () {
@@ -42,7 +41,6 @@ describe('abc news page', function() {
         for (var i=1; i<=result.value.length; i++){
             var objArticle = {};
             var locator_article = "//ul[@class='article-index']/li[" + i +  "]";
-            console.log('debug:: ' + locator_article);
             objArticle.title = browser.getText(locator_article + '/h3');
 
             expect(objArticle.title).not.equal(null);
@@ -73,13 +71,13 @@ describe('abc news page', function() {
                                   
             });
             
-            console.log(result.value);
             expect(result.value).not.equal(null);
             
     });
 
     it('verify that images in image gallery loaded successfully', function(){
         browser.url('/news/2017-02-10/abc-open-pic-of-the-week/8256256');
+        browser.waitForExist(objImageLocator.listGalleryLocator,10000);
         var num_of_images = (browser.elements(objImageLocator.imgList())).value.length;
         console.log(num_of_images);
         //check all the 15 images in the gallery have been loaded

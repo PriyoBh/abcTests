@@ -26,6 +26,6 @@ gulp.task('uiTests', ['selenium'], function() {
 });
 
 gulp.task('apiTests',function () {
-  return gulp.src('test/apiTests/*', {read: false})
+  return gulp.src('test/apiTests/*.js', {read: false})
     .pipe(mocha());
 });
