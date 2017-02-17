@@ -1,4 +1,4 @@
-# js_utilities
+# abcTests
 
 This testing framework runs a set of ui tests and api tests.
 
@@ -30,5 +30,8 @@ Run the following command => ./node_modules/.bin/selenium-standalone install
 
 Commands to run the tests =>
 
-for the ui tests => npm run uiTests
-for the api tests => npm run apiTests
+for the ui news page  tests => npm run uiNewsTests
+for the ui radio page tests => npm run uiRadioTests
+for the api tests in production => npm run apiTestsInProduction
+
+Please Note:- at present there is no task to run the api tests in test or staging as the webservice urls do not work in those environments. But they can be easily added in future by adding environment specific config files.

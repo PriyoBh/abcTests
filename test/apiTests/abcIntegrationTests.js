@@ -5,19 +5,55 @@ var path = require('path');
 var ps = require('../apiModules/apiMethods');
 var ch = require('../commonUtilities/collectionHandlers');
 var fm = require('../commonUtilities/streamHandlers');
-
 var fs = require('fs');
 
-var baseUrl_ppJj0E8g2R = "http://program.abcradio.net.au/api/v1/programs/ppJj0E8g2R.json";
-var baseJSON_ppJj0E8g2R_filePath = path.join(__dirname,'../baselineJSON/ppJj0E8g2R.json');
+var baseUrl_ppJj0E8g2R;		
+var baseUrl_ppxa2Amj2b;
+var baseJSON_ppJj0E8g2R_filePath;
+var baseJSON_ppxa2Amj2b_filePath;
+	
 
+	before(function(done){
+			var environment = process.env.NODE_ENV;
+	//setup environment config file based on the node run environment in package.json
+			switch(environment){
+
+				case 'production':
+				configFilePath = path.join(__dirname,"../environmentConfigs/config_production.json");
+				break;
+
+				case 'staging':
+				configFilePath = path.join(__dirname,"../environmentConfigs/config_production.json");
+				break;
+
+				case 'test':
+				configFilePath = path.join(__dirname,'../environmentConfigs/config_test.json');
+				break;
+			}
+
+
+			fm.readInputFile(configFilePath,(error,fileData)=>{
+				var obj_config_json = JSON.parse(fileData);
+				baseUrl_ppJj0E8g2R = obj_config_json["baseUrl_ppJj0E8g2R"];
+				baseUrl_ppxa2Amj2b = obj_config_json["baseUrl_ppxa2Amj2b"];
+				baseJSON_ppJj0E8g2R_filePath = path.join(__dirname,obj_config_json["baseJSON_ppJj0E8g2R_fileName"]);
+				baseJSON_ppxa2Amj2b_filePath = path.join(__dirname,obj_config_json["baseJSON_ppxa2Amj2b_fileName"]);
+				done();
+			});
+
+
+		});
 
 	describe("api integration tests",function(){
 
 		it("call the service ppJj0E8g2R and verify the key value pairs", function(done){
-			ps.callAPI(baseUrl_ppJj0E8g2R,function(response,body){
+				ps.callAPI(baseUrl_ppJj0E8g2R,(error,response,body)=>{
+				if (error != null){
+					console.log("error message: " + error);					
+				}					
+
 				var obj_json_body = JSON.parse(body);
-				fm.readInputFile(baseJSON_ppJj0E8g2R_filePath,function(error,fileData){
+				fm.readInputFile(baseJSON_ppJj0E8g2R_filePath,(error,fileData)=>{
 					var obj_json_baseline = JSON_parse(fileData);
 					expect(obj_json_body).to.equal(obj_json_baseline);
 				});
@@ -26,78 +62,21 @@ var baseJSON_ppJj0E8g2R_filePath = path.join(__dirname,'../baselineJSON/ppJj0E8g
 				done();
 			});
 
-		/*
-		it("I should get a status code of 200 when I call the public abn service with test data 62 885 060 801",
-			function(done){
-					var objParams = {
-						searchString:'62885060801',
-						includeHistoricalDetails:'N',
-						authenticationGuid:'83751b46-0116-4a0a-955b-62553e4d8955'
-					};
-					ps.ABNService(objParams,function(response,body){
-						expect(response.statusCode).to.equal(200);	
-					done();	
-					});
-				
+		it("call the service ppJj0E8g2R and verify the key value pairs", function(done){
+			ps.callAPI(baseUrl_ppxa2Amj2b,(error,response,body)=>{
+				if (error != null){
+					console.log("error message: " + error);					
+				}					
+				var obj_json_body = JSON.parse(body);
+				fm.readInputFile(baseJSON_ppxa2Amj2b_filePath,(error,fileData)=>{
+					var obj_json_baseline = JSON_parse(fileData);
+					expect(obj_json_body).to.equal(obj_json_baseline);
 				});
 
-		it("when i search abn 62885060801 the entity type code should be active",
-			function(done){
-					var objParams = {
-						searchString:'62885060801',
-						includeHistoricalDetails:'N',
-						authenticationGuid:'83751b46-0116-4a0a-955b-62553e4d8955'
-					};
-					ps.ABNService(objParams,function(response,body){
-					xml2js.parseString(body,function(err,result){						
-						var keyPath = ['ABRPayloadSearchResults','response','businessEntity201408','entityStatus','entityStatusCode'];
-						var entityStatusCode = ch.getValueByKeyPath(result,keyPath);											
-						expect(entityStatusCode).to.equal('Active');
-						done();	
-					})	
-					
-					});
-					
 				});
+				done();
+			});	
 
-		it("when i search abn 39011010594 the entity type code should be cancelled",
-			function(done){
-					var objParams = {
-						searchString:'39011010594',
-						includeHistoricalDetails:'N',
-						authenticationGuid:'83751b46-0116-4a0a-955b-62553e4d8955'
-					};
-					ps.ABNService(objParams,function(response,body){
-					xml2js.parseString(body,function(err,result){						
-						var keyPath = ['ABRPayloadSearchResults','response','businessEntity201408','entityStatus','entityStatusCode'];
-						var entityStatusCode = ch.getValueByKeyPath(result,keyPath);											
-						expect(entityStatusCode).to.equal('Cancelled');
-						done();	
-					})	
-					
-					});
-					
-				});	
-
-		it("when i search abn 62885060801 the organisation name should be The Trustee for LAUTRE SELF MANAGED SUPERANNUATION FUND",
-			function(done){
-					var objParams = {
-						searchString:'62885060801',
-						includeHistoricalDetails:'N',
-						authenticationGuid:'83751b46-0116-4a0a-955b-62553e4d8955'
-					};
-					ps.ABNService(objParams,function(response,body){
-					xml2js.parseString(body,function(err,result){
-						var keyPath = ['ABRPayloadSearchResults','response','businessEntity201408','mainName','organisationName'];
-						var orgName = ch.getValueByKeyPath(result,keyPath);					
-						expect(orgName).to.equal('The Trustee for LAUTRE SELF MANAGED SUPERANNUATION FUND');
-						done();	
-					})	
-					
-					});
-					
-				});
-*/				
 	});	
 
 			

@@ -11,7 +11,7 @@ exports.config = {
      * specify test files
      */
     specs: [
-        './test/specs/*.js'
+        './test/specs/abcRadioTests.js'
     ],
     /*exclude: [
         'test/spec/multibrowser/**',
@@ -44,7 +44,7 @@ exports.config = {
 
     mochaOpts: {
         ui: 'bdd',
-        timeout: 20000
+        timeout: 60000
     },
 
     /**

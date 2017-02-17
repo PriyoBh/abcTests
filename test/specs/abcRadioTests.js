@@ -83,25 +83,23 @@ describe('abc radio tests', function(){
 	
 	});
 
-/*
+
 it("navigate successfully to the last guide of the program guide banner and select", function(){
 		browser.url('/radionational');
-		var text = objProgramNavLocator.getXPathForProgramNav("3:00 am");
-		console.log(text);
-		
+		browser.pause(5000);
 		do
 		{
 			browser.click(objProgramNavLocator.lnk_rightArrow);	
-		} while(!browser.isVisible(objProgramNavLocator.getXPathForProgramNav("3:00 am")));
+			browser.pause(2000);
+		} while(!browser.isVisible("//ul[@aria-label='RN On Air Schedule']/li[21]/a"));
 		
-		//browser.waitForEnabled("//*[@id='content']/div[1]/div/div/div[2]/ul/li[20]/a",5000);
+		console.log(browser.getAttribute("//ul[@aria-label='RN On Air Schedule']/li[21]/a","href"));
+		var anchorTextUrl = browser.getAttribute("//ul[@aria-label='RN On Air Schedule']/li[21]/a","href");
+		var programText = browser.getText("//ul[@aria-label='RN On Air Schedule']/li[21]/a/div/div[2]");
+		browser.url(anchorTextUrl);	
+		expect(browser.getText("//h2[@class='rn-program-banner']/a")).to.equal(programText);
 
-		browser.click("//*[@id='content']/div[1]/div/div/div[2]/ul/li[19]/a/div[1]");
 	
-	
-		browser.pause(5000);
-		//expect(browser.getText("//h2//a[contains(text(),'Big Ideas')]")).to.equal("Blala");
-		
 	});
-	*/
+	
 });

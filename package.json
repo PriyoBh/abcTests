@@ -1,11 +1,12 @@
 {
-  "name": "mochatests-stgeorge",
+  "name": "abcTests",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "apiTests": "./node_modules/.bin/gulp apiTests",
-    "uiTests": "./node_modules/.bin/gulp uiTests"
+    "apiTestsInProduction": "NODE_ENV=production ./node_modules/.bin/gulp apiTests",
+    "uiRadioTests": "./node_modules/.bin/gulp uiRadioTests",
+    "uiNewsTests" : "./node_modules/.bin/gulp uiNewsTests"
   },
   "author": "Priyabrata Bhattacharya",
   "license": "ISC",

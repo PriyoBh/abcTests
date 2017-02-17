@@ -18,8 +18,15 @@ gulp.task('selenium', function (done) {
     });
 });
 
-gulp.task('uiTests', ['selenium'], function() {
-  return gulp.src(path.join(__dirname, 'wdio.conf.js'))
+gulp.task('uiRadioTests', ['selenium'], function() {
+  return gulp.src(path.join(__dirname, 'wdio.conf.abcRadio.js'))
+    .pipe(webdriver()).once('end', function() {
+      selenium.child.kill();
+    });
+});
+
+gulp.task('uiNewsTests', ['selenium'], function() {
+  return gulp.src(path.join(__dirname, 'wdio.conf.abcNews.js'))
     .pipe(webdriver()).once('end', function() {
       selenium.child.kill();
     });

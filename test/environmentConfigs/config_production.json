@@ -1,0 +1,7 @@
+{
+	"baseUrl_ppJj0E8g2R" : "http://program.abcradio.net.au/api/v1/programs/ppJj0E8g2R.json",
+	"baseUrl_ppxa2Amj2b" : "http://program.abcradio.net.au/api/v1/programs/ppxa2Amj2b.json",
+	"baseJSON_ppJj0E8g2R_fileName" : "../baselineJSON/ppJj0E8g2R.json",
+	"baseJSON_ppxa2Amj2b_fileName" : "../baselineJSON/ppxa2Amj2b.json"
+
+}
